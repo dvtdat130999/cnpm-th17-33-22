@@ -10,17 +10,29 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.DisplayMetrics;
 import android.util.SparseArray;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -31,10 +43,21 @@ import com.google.android.gms.vision.text.TextRecognizer;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Random;
+
 public class Scan extends AppCompatActivity {
 
+    String text_filename;
     EditText edtResult;
     ImageView imageView;
+    Button  btn_convert,btnSaveText,btnLoadText,btnClearText;
 
     private static final int CAMERA_REQUEST_CODE=200;
     private static final int STORAGE_REQUEST_CODE=400;
@@ -44,9 +67,19 @@ public class Scan extends AppCompatActivity {
     String cameraPermission[];
     String storagePermission[];
 
+    public static String targetPdf = "/sdcard/";
 
+
+    boolean boolean_save=false;
+    Bitmap bitmap;
+    public static final int REQUEST_PERMISSIONS = 1;
+
+    private static File file;
+    private static Uri _imagefileUri;
+    private static final String IMAGE_CAPTURE_FOLDER = "cmscanner";
+    String _imageFileName;
     Uri image_uri;
-
+    String filename;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,14 +88,115 @@ public class Scan extends AppCompatActivity {
         ActionBar actionBar=getSupportActionBar();
         actionBar.setSubtitle("Click + button to insert Image");
         edtResult=(EditText)findViewById(R.id.edtResult);
-        imageView=(ImageView)findViewById(R.id.imgView);
 
+        imageView=(ImageView)findViewById(R.id.imgView);
+        btn_convert = (Button) findViewById(R.id.btn_convert);
+        btnSaveText=(Button)findViewById(R.id.btnSaveText);
+        btnLoadText=(Button)findViewById(R.id.btnLoadText);
+        btnClearText=(Button)findViewById(R.id.btnClearText);
+
+        btnClearText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edtResult.setText("");
+            }
+        });
+
+        btn_convert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(boolean_save)
+                {
+                    Intent intent1=new Intent(getApplicationContext(),PDFViewActivity.class);
+                    startActivity(intent1);
+
+                }else
+
+                    {
+                        displayAlertDialogFileName();
+                }
+
+            }
+        });
+        btnSaveText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayAlertDialogFileNameSave();
+            }
+        });
+        btnLoadText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayAlertDialogFileNameLoad();
+            }
+        });
         //camera permission
         cameraPermission=new String[]{Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission=new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
     }
+    //save and load text file
+    public void saveTextFile()
+    {
+        String text=edtResult.getText().toString();
+        FileOutputStream fos=null;
 
+        try {
+            fos=openFileOutput(text_filename+".txt",MODE_PRIVATE);
+            fos.write(text.getBytes());
+
+            Toast.makeText(this,"Save to"+getFilesDir()+
+                        "/"+text_filename+".txt",Toast.LENGTH_LONG).show();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(fos!=null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+    }
+    public void loadTextFile()
+    {
+        FileInputStream fis=null;
+
+        try {
+            fis=openFileInput(text_filename+".txt");
+            InputStreamReader isr=new InputStreamReader(fis);
+            BufferedReader br=new BufferedReader(isr);
+            StringBuilder sb=new StringBuilder();
+            String text;
+
+            while((text=br.readLine())!=null)
+            {
+                sb.append(text).append("\n");
+
+            }
+
+            edtResult.setText(sb.toString());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }  finally {
+            if(fis!=null)
+            {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     //action bar menu
 
     @Override
@@ -142,6 +276,7 @@ public class Scan extends AppCompatActivity {
     }
 
     private void pickGallery() {
+
         Intent intent=new Intent(Intent.ACTION_PICK);
 
         //set intent type to image
@@ -150,6 +285,7 @@ public class Scan extends AppCompatActivity {
     }
 
     private void pickCamera() {
+
         ContentValues values=new ContentValues();
         values.put(MediaStore.Images.Media.TITLE,"NewPic");
         values.put(MediaStore.Images.Media.DESCRIPTION,"Image To Text");
@@ -254,12 +390,16 @@ public class Scan extends AppCompatActivity {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
+
+                //button check pdf change to convert
+                boolean_save=false;
+                btn_convert.setText("Convert");
                 Uri resultUri = result.getUri();//get image uri
                 //set image to text
                 imageView.setImageURI(resultUri);
                 //get drawable bitmap for text recognition
                 BitmapDrawable bitmapDrawable=(BitmapDrawable)imageView.getDrawable();
-                Bitmap bitmap=bitmapDrawable.getBitmap();
+                bitmap=bitmapDrawable.getBitmap();
 
                 TextRecognizer recognizer=new TextRecognizer.Builder(getApplicationContext()).build();
 
@@ -298,4 +438,169 @@ public class Scan extends AppCompatActivity {
         }
 
     }
+    private void createPdf(){
+
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        float hight = displaymetrics.heightPixels ;
+        float width = displaymetrics.widthPixels ;
+
+        int convertHighet = (int) hight, convertWidth = (int) width;
+
+//        Resources mResources = getResources();
+//        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.screenshot);
+
+        PdfDocument document = new PdfDocument();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 1).create();
+        PdfDocument.Page page = document.startPage(pageInfo);
+
+        Canvas canvas = page.getCanvas();
+
+
+        Paint paint = new Paint();
+        paint.setColor(Color.parseColor("#ffffff"));
+        canvas.drawPaint(paint);
+
+
+
+        bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+
+        paint.setColor(Color.BLUE);
+        canvas.drawBitmap(bitmap, 0, 0 , null);
+        document.finishPage(page);
+
+
+        // write the document content
+        File filePath = new File(targetPdf+filename+".pdf");
+        try {
+            document.writeTo(new FileOutputStream(filePath));
+            btn_convert.setText("Check PDF");
+            boolean_save=true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
+        }
+
+        // close the document
+        document.close();
+    }
+    private File getFile() {
+        String filepath = Environment.getExternalStorageDirectory().getPath();
+        file = new File(filepath, IMAGE_CAPTURE_FOLDER);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+
+        return new File(file + File.separator + _imageFileName
+                + ".jpg");
+    }
+    public void genRandom(){
+        Random r = new Random();
+        String alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+        final int N = 10;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < N; i++) {
+            sb.append(alphabet.charAt(r.nextInt(alphabet.length())));
+        }
+        _imageFileName = sb.toString();
+
+    }
+    public void displayAlertDialogFileName() {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.activity_filename, null);
+        final EditText edtFilename = (EditText) alertLayout.findViewById(R.id.edtFilename);
+
+
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Save PDF");
+        alert.setView(alertLayout);
+        alert.setCancelable(false);
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getBaseContext(), "Cancel clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alert.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                filename = edtFilename.getText().toString();
+                createPdf();
+
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+    public void displayAlertDialogFileNameSave() {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.activity_filename, null);
+        final EditText edtFilename = (EditText) alertLayout.findViewById(R.id.edtFilename);
+
+
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Save Text");
+        alert.setView(alertLayout);
+        alert.setCancelable(false);
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getBaseContext(), "Cancel clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alert.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                text_filename = edtFilename.getText().toString();
+                saveTextFile();
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+    public void displayAlertDialogFileNameLoad() {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.activity_filename, null);
+        final EditText edtFilename = (EditText) alertLayout.findViewById(R.id.edtFilename);
+
+
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Load Text");
+        alert.setView(alertLayout);
+        alert.setCancelable(false);
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getBaseContext(), "Cancel clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alert.setPositiveButton("Open", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                text_filename = edtFilename.getText().toString();
+                loadTextFile();
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+
 }

@@ -41,7 +41,29 @@
                         android:padding="5dp"
                         android:textColor="#000"
                         android:background="@null"/>
-
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/btnSaveText"
+                            android:text="Save Text"
+                            />
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/btnLoadText"
+                            android:text="Load Text"
+                            />
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/btnClearText"
+                            android:text="Clear Text"
+                            />
+                    </LinearLayout>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -74,6 +96,12 @@
 
                         />
 
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Convert"
+                        android:layout_gravity="center"
+                        android:id="@+id/btn_convert"/>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
