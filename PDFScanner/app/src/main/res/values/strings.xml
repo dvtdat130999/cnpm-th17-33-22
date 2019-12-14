@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">PDF Scanner</string>
+    <string name="title_activity_signature">SignatureActivity</string>
+
+    <string name="hint_sign">Get Signature</string>
+    <string name="dialog_title">SIGN HERE</string>
+    <string name="hint_cancel">Cancel</string>
+    <string name="hint_clear">Clear</string>
+    <string name="hint_save">Save</string>
 </resources>
