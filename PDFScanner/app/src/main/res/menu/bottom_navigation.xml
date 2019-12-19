@@ -2,9 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/addImage"
+        android:id="@+id/scanf"
         android:enabled="true"
-        android:icon="@drawable/ic_image"
+        android:icon="@drawable/ic_scan"
         android:title="Scan"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/user"
+        android:enabled="true"
+        android:icon="@drawable/ic_user"
+        android:title="User"
         app:showAsAction="ifRoom" />
 </menu>

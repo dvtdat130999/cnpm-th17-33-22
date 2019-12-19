@@ -1,10 +1,12 @@
-package com.example.pdfscanner;
+package com.example.pdfscanner.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -21,6 +23,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -35,11 +38,16 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
+import com.example.pdfscanner.Object.BottomNavigationViewBehavior;
+import com.example.pdfscanner.R;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -52,12 +60,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Random;
 
-public class Scan extends AppCompatActivity {
+public class ScanActivity extends AppCompatActivity {
 
     String text_filename;
     EditText edtResult;
     ImageView imageView;
     Button  btn_convert,btnSaveText,btnLoadText,btnClearText;
+    ScrollView scrollView;
+    BottomNavigationView bottomNavigationView;
 
     private static final int CAMERA_REQUEST_CODE=200;
     private static final int STORAGE_REQUEST_CODE=400;
@@ -80,13 +90,12 @@ public class Scan extends AppCompatActivity {
     String _imageFileName;
     Uri image_uri;
     String filename;
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
 
-        ActionBar actionBar=getSupportActionBar();
-        actionBar.setSubtitle("Click + button to insert Image");
         edtResult=(EditText)findViewById(R.id.edtResult);
 
         imageView=(ImageView)findViewById(R.id.imgView);
@@ -94,6 +103,8 @@ public class Scan extends AppCompatActivity {
         btnSaveText=(Button)findViewById(R.id.btnSaveText);
         btnLoadText=(Button)findViewById(R.id.btnLoadText);
         btnClearText=(Button)findViewById(R.id.btnClearText);
+        scrollView=(ScrollView)findViewById(R.id.scrollView);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         btnClearText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +145,37 @@ public class Scan extends AppCompatActivity {
         cameraPermission=new String[]{Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission=new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        addActionBottomNavigationView();
+        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (oldScrollY > 0 && bottomNavigationView.isShown()) {
+                    bottomNavigationView.setVisibility(View.GONE);
+                } else if (oldScrollY < 0 ) {
+                    bottomNavigationView.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
+    }
+
+    private void addActionBottomNavigationView() {
+        bottomNavigationView.setSelectedItemId(R.id.scanf);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Intent intent;
+                switch (item.getItemId()) {
+                    case R.id.user:
+                        intent = new Intent(ScanActivity.this, UserActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+                        finish();
+                        break;
+                }
+                return true;
+            }
+        });
     }
     //save and load text file
     public void saveTextFile()
@@ -217,11 +259,6 @@ public class Scan extends AppCompatActivity {
         if(id==R.id.addImage)
         {
             showImageImportDialog();
-
-        }
-        if(id==R.id.setting)
-        {
-            Toast.makeText(this,"Setting",Toast.LENGTH_SHORT).show();
 
         }
         return super.onOptionsItemSelected(item);
@@ -575,7 +612,6 @@ public class Scan extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.activity_filename, null);
         final EditText edtFilename = (EditText) alertLayout.findViewById(R.id.edtFilename);
-
 
 
         AlertDialog.Builder alert = new AlertDialog.Builder(this);

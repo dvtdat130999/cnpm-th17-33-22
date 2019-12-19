@@ -1,4 +1,4 @@
-package com.example.pdfscanner;
+package com.example.pdfscanner.Object;
 
 public class User {
     private String username;

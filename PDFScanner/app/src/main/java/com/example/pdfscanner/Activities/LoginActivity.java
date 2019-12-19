@@ -1,4 +1,4 @@
-package com.example.pdfscanner;
+package com.example.pdfscanner.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,9 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class Login extends AppCompatActivity {
-    TextView txtvRegister;
+import com.example.pdfscanner.R;
 
+public class LoginActivity extends AppCompatActivity {
+    TextView txtvRegister;
     EditText edtUsername,edtPassword;
     Button btnSignIn;
     @Override
@@ -32,15 +33,15 @@ public class Login extends AppCompatActivity {
 
                 if(username!=""&&password!="")
                 {
-                    android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(Login.this);
-                    builder.setMessage("Login success!").create().show();
+                    android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(LoginActivity.this);
+                    builder.setMessage("LoginActivity success!").create().show();
 
 
                 }
                 else
                 {
-                    android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(Login.this);
-                    builder.setMessage("Login failed!").setNegativeButton("Retry",null).create().show();
+                    android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(LoginActivity.this);
+                    builder.setMessage("LoginActivity failed!").setNegativeButton("Retry",null).create().show();
 
                 }
             }
@@ -48,8 +49,8 @@ public class Login extends AppCompatActivity {
         txtvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Login.this, Register.class));
-
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                finish();
             }
         });
     }

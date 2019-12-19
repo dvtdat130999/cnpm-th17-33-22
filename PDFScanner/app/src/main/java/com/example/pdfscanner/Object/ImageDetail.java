@@ -1,4 +1,4 @@
-package com.example.pdfscanner;
+package com.example.pdfscanner.Object;
 
 import java.util.Date;
 

@@ -3,109 +3,150 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Scan">
+    android:layout_height="match_parent">
+
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorTransparent"
             android:orientation="vertical">
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="#fff"
-                app:cardUseCompatPadding="true"
                 app:cardCornerRadius="3dp"
                 app:cardElevation="3dp"
-                >
+                app:cardUseCompatPadding="true">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="5dp">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Result"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="20sp"
-                        />
+                        android:textColor="@color/inactive"
+                        android:textSize="20sp" />
+
                     <EditText
                         android:id="@+id/edtResult"
-                        android:hint=""
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
                         android:autoLink="all"
+                        android:background="@null"
+                        android:hint=""
                         android:padding="5dp"
-                        android:textColor="#000"
-                        android:background="@null"/>
+                        android:textColor="#000" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:id="@+id/btnSaveText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button"
                             android:text="Save Text"
-                            />
+                            android:textColor="@color/colorTitle" />
+
                         <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:id="@+id/btnLoadText"
-                            android:text="Load Text"
-                            />
-                        <Button
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button"
+                            android:text="Load Text"
+                            android:textColor="@color/colorTitle" />
+
+                        <Button
                             android:id="@+id/btnClearText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button"
                             android:text="Clear Text"
-                            />
+                            android:textColor="@color/colorTitle" />
                     </LinearLayout>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="#fff"
-                app:cardUseCompatPadding="true"
                 app:cardCornerRadius="3dp"
-                app:cardElevation="3dp">
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="5dp"
-                    >
+                    android:padding="5dp">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:text="Image Preview"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="20sp"
-                        />
+                        android:textColor="@color/inactive"
+                        android:textSize="20sp" />
+
                     <ImageView
                         android:id="@+id/imgView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:maxHeight="250dp"
-
-
-                        />
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:maxHeight="250dp" />
 
                     <Button
+                        android:id="@+id/btn_convert"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Convert"
                         android:layout_gravity="center"
-                        android:id="@+id/btn_convert"/>
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/bg_button"
+                        android:text="Convert"
+                        android:textColor="@color/colorTitle" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@android:color/white"
+        app:itemIconTint="@android:color/darker_gray"
+        app:itemTextColor="@android:color/darker_gray"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+        app:menu="@menu/bottom_navigation" />
 </RelativeLayout>

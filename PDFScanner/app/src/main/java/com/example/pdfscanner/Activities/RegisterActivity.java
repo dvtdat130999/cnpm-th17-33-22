@@ -1,4 +1,4 @@
-package com.example.pdfscanner;
+package com.example.pdfscanner.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,28 +9,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
+
+import com.example.pdfscanner.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
-public class Register extends AppCompatActivity implements View.OnClickListener{
-    TextView txtvLogin;
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
+    TextView txtvSignIn;
     EditText edtFName,edtLName,edtAddress,edtPhone,edtUsername,edtPassword,edtBirthdate;
-    Button btnSignUp,btnSelect;
+    Button btnSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        txtvLogin=(TextView)findViewById(R.id.txtvLogin);
         btnSignUp=(Button)findViewById(R.id.btnSignUp);
-        btnSelect=(Button)findViewById(R.id.btnSelect);
 
-
+        txtvSignIn=(TextView)findViewById(R.id.txtvSignIn);
         edtFName=(EditText)findViewById(R.id.edtFirstName);
         edtLName=(EditText)findViewById(R.id.edtLastName);
         edtAddress=(EditText)findViewById(R.id.edtAddress);
@@ -40,8 +38,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         edtPassword=(EditText)findViewById(R.id.edtPassword);
 
         btnSignUp.setOnClickListener(this);
-        txtvLogin.setOnClickListener(this);
-        btnSelect.setOnClickListener(this);
+        txtvSignIn.setOnClickListener(this);
     }
     @Override
     public void onClick(View view){
@@ -57,19 +54,20 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
 
                 if(fname!=""&&lname!=""&&address!=""&&phone!=""&&birthdate!=""&&username!=""&&password!="")
                 {
-                    android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(Register.this);
-                    builder.setMessage("Register success!").create().show();
+                    android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(RegisterActivity.this);
+                    builder.setMessage("RegisterActivity success!").create().show();
                 }
                 if(fname!=""&&lname!=""&&address!=""&&phone!=""&&birthdate!=""&&username!=""&&password!="")
                 {
-                    android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(Register.this);
-                    builder.setMessage("Register failed!").create().show();
+                    android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(RegisterActivity.this);
+                    builder.setMessage("RegisterActivity failed!").create().show();
                 }
                 break;
-            case R.id.txtvLogin:
-                startActivity(new Intent(this, Login.class));
+            case R.id.txtvSignIn:
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                finish();
                 break;
-            case R.id.btnSelect:
+            case R.id.edtBirthdate:
                 pickDate();
                 break;
 
