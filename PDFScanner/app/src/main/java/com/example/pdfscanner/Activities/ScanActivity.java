@@ -9,8 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,6 +29,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.SparseArray;
 import android.view.Display;
@@ -39,6 +42,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.ShareActionProvider;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -58,6 +63,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 public class ScanActivity extends AppCompatActivity {
@@ -65,14 +73,16 @@ public class ScanActivity extends AppCompatActivity {
     String text_filename;
     EditText edtResult;
     ImageView imageView;
-    Button  btn_convert,btnSaveText,btnLoadText,btnClearText;
+    Button btn_convert, btnSaveText, btnLoadText, btnClearText;
     ScrollView scrollView;
     BottomNavigationView bottomNavigationView;
+    ShareActionProvider mShareActionProvider;
+    TextView shareText, sharePDF;
 
-    private static final int CAMERA_REQUEST_CODE=200;
-    private static final int STORAGE_REQUEST_CODE=400;
-    private static final int IMAGE_PICK_GALLERY_CODE=1000;
-    private static final int IMAGE_PICK_CAMERA_CODE=1001;
+    private static final int CAMERA_REQUEST_CODE = 200;
+    private static final int STORAGE_REQUEST_CODE = 400;
+    private static final int IMAGE_PICK_GALLERY_CODE = 1000;
+    private static final int IMAGE_PICK_CAMERA_CODE = 1001;
 
     String cameraPermission[];
     String storagePermission[];
@@ -80,7 +90,7 @@ public class ScanActivity extends AppCompatActivity {
     public static String targetPdf = "/sdcard/";
 
 
-    boolean boolean_save=false;
+    boolean boolean_save = false;
     Bitmap bitmap;
     public static final int REQUEST_PERMISSIONS = 1;
 
@@ -90,20 +100,22 @@ public class ScanActivity extends AppCompatActivity {
     String _imageFileName;
     Uri image_uri;
     String filename;
+    File filePath;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
 
-        edtResult=(EditText)findViewById(R.id.edtResult);
+        edtResult = (EditText) findViewById(R.id.edtResult);
 
-        imageView=(ImageView)findViewById(R.id.imgView);
+        imageView = (ImageView) findViewById(R.id.imgView);
         btn_convert = (Button) findViewById(R.id.btn_convert);
-        btnSaveText=(Button)findViewById(R.id.btnSaveText);
-        btnLoadText=(Button)findViewById(R.id.btnLoadText);
-        btnClearText=(Button)findViewById(R.id.btnClearText);
-        scrollView=(ScrollView)findViewById(R.id.scrollView);
+        btnSaveText = (Button) findViewById(R.id.btnSaveText);
+        btnLoadText = (Button) findViewById(R.id.btnLoadText);
+        btnClearText = (Button) findViewById(R.id.btnClearText);
+        scrollView = (ScrollView) findViewById(R.id.scrollView);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         btnClearText.setOnClickListener(new View.OnClickListener() {
@@ -116,15 +128,12 @@ public class ScanActivity extends AppCompatActivity {
         btn_convert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(boolean_save)
-                {
-                    Intent intent1=new Intent(getApplicationContext(),PDFViewActivity.class);
+                if (boolean_save) {
+                    Intent intent1 = new Intent(getApplicationContext(), PDFViewActivity.class);
                     startActivity(intent1);
 
-                }else
-
-                    {
-                        displayAlertDialogFileName();
+                } else {
+                    displayAlertDialogFileName();
                 }
 
             }
@@ -142,16 +151,54 @@ public class ScanActivity extends AppCompatActivity {
             }
         });
         //camera permission
-        cameraPermission=new String[]{Manifest.permission.CAMERA,
+        cameraPermission = new String[]{Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        storagePermission=new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
         addActionBottomNavigationView();
+        addScrollEventForBottomNavigationBar();
+        addShareEvent();
+    }
+
+    private void addShareEvent() {
+        shareText = findViewById(R.id.shareText);
+        sharePDF = findViewById(R.id.sharePDF);
+        shareText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(edtResult.getText().toString())) {
+                    Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(android.content.Intent.EXTRA_TEXT, edtResult.getText().toString());
+                    startActivity(Intent.createChooser(intent, "Share"));
+                }
+            }
+        });
+        sharePDF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (imageView.getDrawable() != null) {
+                    @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                    long miliSeconds = System.currentTimeMillis();
+                    Date date = new Date(miliSeconds);
+                    filename = dateFormat.format(date);
+                    createPdf();
+                    Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                    intent.setType("application/pdf");
+                    Intent intent1 = intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(ScanActivity.this, getApplicationContext().getPackageName() + ".provider", filePath));
+                    startActivity(Intent.createChooser(intent, "Share"));
+                }
+            }
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void addScrollEventForBottomNavigationBar() {
         scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (oldScrollY > 0 && bottomNavigationView.isShown()) {
                     bottomNavigationView.setVisibility(View.GONE);
-                } else if (oldScrollY < 0 ) {
+                } else if (oldScrollY < 0) {
                     bottomNavigationView.setVisibility(View.VISIBLE);
 
                 }
@@ -177,25 +224,25 @@ public class ScanActivity extends AppCompatActivity {
             }
         });
     }
+
     //save and load text file
-    public void saveTextFile()
-    {
-        String text=edtResult.getText().toString();
-        FileOutputStream fos=null;
+    public void saveTextFile() {
+        String text = edtResult.getText().toString();
+        FileOutputStream fos = null;
 
         try {
-            fos=openFileOutput(text_filename+".txt",MODE_PRIVATE);
+            fos = openFileOutput(text_filename + ".txt", MODE_PRIVATE);
             fos.write(text.getBytes());
 
-            Toast.makeText(this,"Save to"+getFilesDir()+
-                        "/"+text_filename+".txt",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Save to" + getFilesDir() +
+                    "/" + text_filename + ".txt", Toast.LENGTH_LONG).show();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if(fos!=null) {
+            if (fos != null) {
                 try {
                     fos.close();
                 } catch (IOException e) {
@@ -206,19 +253,18 @@ public class ScanActivity extends AppCompatActivity {
 
 
     }
-    public void loadTextFile()
-    {
-        FileInputStream fis=null;
+
+    public void loadTextFile() {
+        FileInputStream fis = null;
 
         try {
-            fis=openFileInput(text_filename+".txt");
-            InputStreamReader isr=new InputStreamReader(fis);
-            BufferedReader br=new BufferedReader(isr);
-            StringBuilder sb=new StringBuilder();
+            fis = openFileInput(text_filename + ".txt");
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
             String text;
 
-            while((text=br.readLine())!=null)
-            {
+            while ((text = br.readLine()) != null) {
                 sb.append(text).append("\n");
 
             }
@@ -228,9 +274,8 @@ public class ScanActivity extends AppCompatActivity {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }  finally {
-            if(fis!=null)
-            {
+        } finally {
+            if (fis != null) {
                 try {
                     fis.close();
                 } catch (IOException e) {
@@ -245,7 +290,7 @@ public class ScanActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         //inflate menu
-        getMenuInflater().inflate(R.menu.menu,menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
 
     }
@@ -255,9 +300,8 @@ public class ScanActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        int id=item.getItemId();
-        if(id==R.id.addImage)
-        {
+        int id = item.getItemId();
+        if (id == R.id.addImage) {
             showImageImportDialog();
 
         }
@@ -266,40 +310,32 @@ public class ScanActivity extends AppCompatActivity {
 
     private void showImageImportDialog() {
         //item to display dialog
-        String []items={"Camera","Gallery"};
-        AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+        String[] items = {"Camera", "Gallery"};
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         //set title
         dialog.setTitle("Select Image");
         dialog.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if(i==0)
-                {
+                if (i == 0) {
                     //camera option clicked
 
-                    if(!checkCameraPermission())
-                    {
+                    if (!checkCameraPermission()) {
                         //not allowed
                         requestCameraPermission();
-                    }
-                    else
-                    {
+                    } else {
                         //allowed
                         pickCamera();
                     }
 
                 }
-                if(i==1)
-                {
+                if (i == 1) {
                     //gallery option clicked
-                    if(!checkStoragePermission())
-                    {
+                    if (!checkStoragePermission()) {
                         //not allowed
                         requestStoragePermission();
 
-                    }
-                    else
-                    {
+                    } else {
                         //allowed
                         pickGallery();
                     }
@@ -314,47 +350,48 @@ public class ScanActivity extends AppCompatActivity {
 
     private void pickGallery() {
 
-        Intent intent=new Intent(Intent.ACTION_PICK);
+        Intent intent = new Intent(Intent.ACTION_PICK);
 
         //set intent type to image
         intent.setType("image/*");
-        startActivityForResult(intent,IMAGE_PICK_GALLERY_CODE);
+        startActivityForResult(intent, IMAGE_PICK_GALLERY_CODE);
     }
 
     private void pickCamera() {
 
-        ContentValues values=new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE,"NewPic");
-        values.put(MediaStore.Images.Media.DESCRIPTION,"Image To Text");
-        image_uri =getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "NewPic");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "Image To Text");
+        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
-        Intent cameraIntent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,image_uri);
-        startActivityForResult(cameraIntent,IMAGE_PICK_CAMERA_CODE);
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE);
     }
 
     private void requestStoragePermission() {
-        ActivityCompat.requestPermissions(this,storagePermission,STORAGE_REQUEST_CODE);
+        ActivityCompat.requestPermissions(this, storagePermission, STORAGE_REQUEST_CODE);
 
 
     }
 
     private boolean checkStoragePermission() {
-        boolean result= ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                ==(PackageManager.PERMISSION_GRANTED);
+        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == (PackageManager.PERMISSION_GRANTED);
         return result;
     }
 
     private boolean checkCameraPermission() {
-        boolean result= ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                ==(PackageManager.PERMISSION_GRANTED);
-        boolean result1= ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                ==(PackageManager.PERMISSION_GRANTED);
+        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == (PackageManager.PERMISSION_GRANTED);
+        boolean result1 = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == (PackageManager.PERMISSION_GRANTED);
 
-        return result &&result1;
+        return result && result1;
     }
+
     private void requestCameraPermission() {
-        ActivityCompat.requestPermissions(this,cameraPermission,CAMERA_REQUEST_CODE);
+        ActivityCompat.requestPermissions(this, cameraPermission, CAMERA_REQUEST_CODE);
 
     }
 
@@ -362,38 +399,29 @@ public class ScanActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode)
-        {
+        switch (requestCode) {
             case CAMERA_REQUEST_CODE:
-                if(grantResults.length>0)
-                {
-                    boolean cameraAccepted=grantResults[0]==
+                if (grantResults.length > 0) {
+                    boolean cameraAccepted = grantResults[0] ==
                             PackageManager.PERMISSION_GRANTED;
-                    boolean writeStorageAccepted=grantResults[0]==
+                    boolean writeStorageAccepted = grantResults[0] ==
                             PackageManager.PERMISSION_GRANTED;
-                    if(cameraAccepted && writeStorageAccepted)
-                    {
+                    if (cameraAccepted && writeStorageAccepted) {
                         pickCamera();
-                    }
-                    else
-                    {
-                        Toast.makeText(this,"Permission denied",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
                     }
                 }
-               break;
+                break;
             case STORAGE_REQUEST_CODE:
-                if(grantResults.length>0)
-                {
+                if (grantResults.length > 0) {
 
-                    boolean writeStorageAccepted=grantResults[0]==
+                    boolean writeStorageAccepted = grantResults[0] ==
                             PackageManager.PERMISSION_GRANTED;
-                    if( writeStorageAccepted)
-                    {
+                    if (writeStorageAccepted) {
                         pickGallery();
-                    }
-                    else
-                    {
-                        Toast.makeText(this,"Permission denied",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
@@ -429,30 +457,26 @@ public class ScanActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
 
                 //button check pdf change to convert
-                boolean_save=false;
+                boolean_save = false;
                 btn_convert.setText("Convert");
                 Uri resultUri = result.getUri();//get image uri
                 //set image to text
                 imageView.setImageURI(resultUri);
                 //get drawable bitmap for text recognition
-                BitmapDrawable bitmapDrawable=(BitmapDrawable)imageView.getDrawable();
-                bitmap=bitmapDrawable.getBitmap();
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
+                bitmap = bitmapDrawable.getBitmap();
 
-                TextRecognizer recognizer=new TextRecognizer.Builder(getApplicationContext()).build();
+                TextRecognizer recognizer = new TextRecognizer.Builder(getApplicationContext()).build();
 
-                if(!recognizer.isOperational())
-                {
-                    Toast.makeText(this,"Error",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    Frame frame=new Frame.Builder().setBitmap(bitmap).build();
-                    SparseArray<TextBlock> items=recognizer.detect(frame);
-                    StringBuilder sb=new StringBuilder();
+                if (!recognizer.isOperational()) {
+                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+                } else {
+                    Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+                    SparseArray<TextBlock> items = recognizer.detect(frame);
+                    StringBuilder sb = new StringBuilder();
                     //get text from sb until there is no text
-                    for(int i=0;i<items.size();i++)
-                    {
-                        TextBlock myItem=items.valueAt(i);
+                    for (int i = 0; i < items.size(); i++) {
+                        TextBlock myItem = items.valueAt(i);
                         sb.append(myItem.getValue());
                         sb.append("\n");
                     }
@@ -461,28 +485,25 @@ public class ScanActivity extends AppCompatActivity {
                 }
 
 
-
-            }
-            else
-            {
-                if(resultCode==CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE)
-                {
+            } else {
+                if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                     //if there is any error show it
-                    Exception error=result.getError();
-                    Toast.makeText(this,""+error,Toast.LENGTH_SHORT).show();
+                    Exception error = result.getError();
+                    Toast.makeText(this, "" + error, Toast.LENGTH_SHORT).show();
                 }
             }
         }
 
     }
-    private void createPdf(){
+
+    private void createPdf() {
 
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         DisplayMetrics displaymetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        float hight = displaymetrics.heightPixels ;
-        float width = displaymetrics.widthPixels ;
+        float hight = displaymetrics.heightPixels;
+        float width = displaymetrics.widthPixels;
 
         int convertHighet = (int) hight, convertWidth = (int) width;
 
@@ -501,20 +522,19 @@ public class ScanActivity extends AppCompatActivity {
         canvas.drawPaint(paint);
 
 
-
         bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
 
         paint.setColor(Color.BLUE);
-        canvas.drawBitmap(bitmap, 0, 0 , null);
+        canvas.drawBitmap(bitmap, 0, 0, null);
         document.finishPage(page);
 
 
         // write the document content
-        File filePath = new File(targetPdf+filename+".pdf");
+        filePath = new File(targetPdf + filename + ".pdf");
         try {
             document.writeTo(new FileOutputStream(filePath));
             btn_convert.setText("Check PDF");
-            boolean_save=true;
+            boolean_save = true;
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
@@ -523,6 +543,7 @@ public class ScanActivity extends AppCompatActivity {
         // close the document
         document.close();
     }
+
     private File getFile() {
         String filepath = Environment.getExternalStorageDirectory().getPath();
         file = new File(filepath, IMAGE_CAPTURE_FOLDER);
@@ -533,7 +554,8 @@ public class ScanActivity extends AppCompatActivity {
         return new File(file + File.separator + _imageFileName
                 + ".jpg");
     }
-    public void genRandom(){
+
+    public void genRandom() {
         Random r = new Random();
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
@@ -545,14 +567,14 @@ public class ScanActivity extends AppCompatActivity {
         _imageFileName = sb.toString();
 
     }
+
     public void displayAlertDialogFileName() {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.activity_filename, null);
         final EditText edtFilename = (EditText) alertLayout.findViewById(R.id.edtFilename);
 
 
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        AlertDialog.Builder alert = new AlertDialog.Builder(ScanActivity.this);
         alert.setTitle("Save PDF");
         alert.setView(alertLayout);
         alert.setCancelable(false);
@@ -577,11 +599,11 @@ public class ScanActivity extends AppCompatActivity {
         AlertDialog dialog = alert.create();
         dialog.show();
     }
+
     public void displayAlertDialogFileNameSave() {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.activity_filename, null);
         final EditText edtFilename = (EditText) alertLayout.findViewById(R.id.edtFilename);
-
 
 
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -608,6 +630,7 @@ public class ScanActivity extends AppCompatActivity {
         AlertDialog dialog = alert.create();
         dialog.show();
     }
+
     public void displayAlertDialogFileNameLoad() {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.activity_filename, null);

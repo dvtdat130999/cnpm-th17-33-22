@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/colorTransparent"
     android:layout_height="match_parent">
 
     <ScrollView
@@ -13,7 +14,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorTransparent"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
@@ -30,12 +30,27 @@
                     android:orientation="vertical"
                     android:padding="5dp">
 
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Result"
-                        android:textColor="@color/inactive"
-                        android:textSize="20sp" />
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Result"
+                            android:textColor="@color/inactive"
+                            android:textSize="24sp" />
+                        <TextView
+                            android:id="@+id/shareText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:textSize="24dp"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:background="@drawable/ic_share"/>
+                    </RelativeLayout>
 
                     <EditText
                         android:id="@+id/edtResult"
@@ -50,8 +65,9 @@
                         android:textColor="#000" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
                         android:orientation="horizontal">
 
                         <Button
@@ -60,9 +76,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
-                            android:layout_weight="1"
                             android:background="@drawable/bg_button"
-                            android:text="Save Text"
+                            android:text="Save text"
                             android:textColor="@color/colorTitle" />
 
                         <Button
@@ -71,9 +86,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
-                            android:layout_weight="1"
                             android:background="@drawable/bg_button"
-                            android:text="Load Text"
+                            android:text="Load text"
                             android:textColor="@color/colorTitle" />
 
                         <Button
@@ -82,9 +96,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
-                            android:layout_weight="1"
                             android:background="@drawable/bg_button"
-                            android:text="Clear Text"
+                            android:text="Clear text"
                             android:textColor="@color/colorTitle" />
                     </LinearLayout>
 
@@ -105,13 +118,27 @@
                     android:orientation="vertical"
                     android:padding="5dp">
 
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:text="Image Preview"
-                        android:textColor="@color/inactive"
-                        android:textSize="20sp" />
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Image Review"
+                            android:textColor="@color/inactive"
+                            android:textSize="24sp" />
+                        <TextView
+                            android:id="@+id/sharePDF"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:textSize="24dp"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:background="@drawable/ic_share"/>
+                    </RelativeLayout>
 
                     <ImageView
                         android:id="@+id/imgView"
