@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
                 {
                     android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(LoginActivity.this);
                     builder.setMessage("LoginActivity success!").create().show();
-                    Intent mainlayout = new Intent (LoginActivity.this, MainActivity.class)
+                    Intent mainlayout = new Intent (LoginActivity.this, MainActivity.class);
                     startActivity(mainlayout);
                 }
                 else
