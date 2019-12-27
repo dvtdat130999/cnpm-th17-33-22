@@ -49,6 +49,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.example.pdfscanner.CustomScrollView;
 import com.example.pdfscanner.Object.BottomNavigationViewBehavior;
 import com.example.pdfscanner.R;
 import com.google.android.gms.vision.Frame;
@@ -76,10 +77,11 @@ public class ScanActivity extends AppCompatActivity {
     EditText edtResult;
     ImageView imageView;
     Button btn_convert, btnSaveText, btnLoadText, btnClearText;
-    ScrollView scrollView;
+//    ScrollView scrollView;
+    CustomScrollView scrollView;
     BottomNavigationView bottomNavigationView;
     ShareActionProvider mShareActionProvider;
-    TextView shareText, sharePDF, sign_btn;
+    TextView shareText, sharePDF, sign_btn, done_sign_btn;
 
     private static final int CAMERA_REQUEST_CODE = 200;
     private static final int STORAGE_REQUEST_CODE = 400;
@@ -121,7 +123,7 @@ public class ScanActivity extends AppCompatActivity {
         btnSaveText = (Button) findViewById(R.id.btnSaveText);
         btnLoadText = (Button) findViewById(R.id.btnLoadText);
         btnClearText = (Button) findViewById(R.id.btnClearText);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
+        scrollView = (CustomScrollView) findViewById(R.id.scrollView);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
 
@@ -201,18 +203,20 @@ public class ScanActivity extends AppCompatActivity {
     
     private void addSign() {
         sign_btn = findViewById(R.id.sign_btn);
+        done_sign_btn = findViewById(R.id.done_sign_btn);
         // config paint
         paintDraw = new Paint();
         paintDraw.setStyle(Paint.Style.FILL);
         paintDraw.setColor(Color.WHITE);
         paintDraw.setStrokeWidth(10);
-
+        final Boolean[] isCanDraw = {true};
 
         sign_btn.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public void onClick(View v) {
-
+                done_sign_btn.setVisibility(View.VISIBLE);
+                scrollView.setEnableScrolling(false);
                 imageView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -234,10 +238,19 @@ public class ScanActivity extends AppCompatActivity {
                                 drawOnProjectedBitMap((ImageView) v, bitmapMaster, prvX, prvY, x, y);
                                 break;
                         }
-                        return true;
+                        return isCanDraw[0];
                     }
                 });
 
+            }
+        });
+        
+        done_sign_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollView.setEnableScrolling(true);
+                isCanDraw[0] = false;
+                Toast.makeText(ScanActivity.this, "Đã kí xong", Toast.LENGTH_SHORT).show();
             }
         });
     }
