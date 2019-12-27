@@ -19,6 +19,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -36,6 +37,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -77,7 +79,7 @@ public class ScanActivity extends AppCompatActivity {
     ScrollView scrollView;
     BottomNavigationView bottomNavigationView;
     ShareActionProvider mShareActionProvider;
-    TextView shareText, sharePDF;
+    TextView shareText, sharePDF, sign_btn;
 
     private static final int CAMERA_REQUEST_CODE = 200;
     private static final int STORAGE_REQUEST_CODE = 400;
@@ -86,7 +88,10 @@ public class ScanActivity extends AppCompatActivity {
 
     String cameraPermission[];
     String storagePermission[];
-
+    int prvX, prvY;
+    Bitmap bitmapMaster;
+    Canvas canvasMaster;
+    Paint paintDraw;
     public static String targetPdf = "/sdcard/";
 
 
@@ -102,6 +107,7 @@ public class ScanActivity extends AppCompatActivity {
     String filename;
     File filePath;
 
+    @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +123,7 @@ public class ScanActivity extends AppCompatActivity {
         btnClearText = (Button) findViewById(R.id.btnClearText);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+
 
         btnClearText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,6 +164,7 @@ public class ScanActivity extends AppCompatActivity {
         addActionBottomNavigationView();
         addScrollEventForBottomNavigationBar();
         addShareEvent();
+        addSign();
     }
 
     private void addShareEvent() {
@@ -190,6 +198,69 @@ public class ScanActivity extends AppCompatActivity {
             }
         });
     }
+    
+    private void addSign() {
+        sign_btn = findViewById(R.id.sign_btn);
+        // config paint
+        paintDraw = new Paint();
+        paintDraw.setStyle(Paint.Style.FILL);
+        paintDraw.setColor(Color.WHITE);
+        paintDraw.setStrokeWidth(10);
+
+
+        sign_btn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public void onClick(View v) {
+
+                imageView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        int action = event.getAction();
+                        int x = (int) event.getX();
+                        int y = (int) event.getY();
+                        switch (action) {
+                            case MotionEvent.ACTION_DOWN:
+                                prvX = x;
+                                prvY = y;
+                                drawOnProjectedBitMap((ImageView) v, bitmapMaster, prvX, prvY, x, y);
+                                break;
+                            case MotionEvent.ACTION_MOVE:
+                                drawOnProjectedBitMap((ImageView) v, bitmapMaster, prvX, prvY, x, y);
+                                prvX = x;
+                                prvY = y;
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                drawOnProjectedBitMap((ImageView) v, bitmapMaster, prvX, prvY, x, y);
+                                break;
+                        }
+                        return true;
+                    }
+                });
+
+            }
+        });
+    }
+
+    private void drawOnProjectedBitMap(ImageView iv, Bitmap bm,
+                                       float x0, float y0, float x, float y){
+        if(x<0 || y<0 || x > iv.getWidth() || y > iv.getHeight()){
+            //outside ImageView
+            return;
+        }else{
+
+            float ratioWidth = (float)bm.getWidth()/(float)iv.getWidth();
+            float ratioHeight = (float)bm.getHeight()/(float)iv.getHeight();
+
+            canvasMaster.drawLine(
+                    x0 * ratioWidth,
+                    y0 * ratioHeight,
+                    x * ratioWidth,
+                    y * ratioHeight,
+                    paintDraw);
+            imageView.invalidate();
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void addScrollEventForBottomNavigationBar() {
@@ -203,6 +274,7 @@ public class ScanActivity extends AppCompatActivity {
 
                 }
             }
+
         });
     }
 
@@ -438,6 +510,8 @@ public class ScanActivity extends AppCompatActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
+
+
             if (requestCode == IMAGE_PICK_GALLERY_CODE) {
                 CropImage.activity(data.getData())
                         .setGuidelines(CropImageView.Guidelines.ON)//enable image guideline
@@ -460,8 +534,33 @@ public class ScanActivity extends AppCompatActivity {
                 boolean_save = false;
                 btn_convert.setText("Convert");
                 Uri resultUri = result.getUri();//get image uri
+
+                try {
+                    Bitmap tempBitmap = BitmapFactory.decodeStream(
+                            getContentResolver().openInputStream(resultUri));
+
+                    Bitmap.Config config;
+                    if(tempBitmap.getConfig() != null){
+                        config = tempBitmap.getConfig();
+                    }else{
+                        config = Bitmap.Config.ARGB_8888;
+                    }
+                    //bitmapMaster is Mutable bitmap
+                    bitmapMaster = Bitmap.createBitmap(
+                            tempBitmap.getWidth(),
+                            tempBitmap.getHeight(),
+                            config);
+
+                    canvasMaster = new Canvas(bitmapMaster);
+                    canvasMaster.drawBitmap(tempBitmap, 0, 0, null);
+
+                    imageView.setImageBitmap(bitmapMaster);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
                 //set image to text
-                imageView.setImageURI(resultUri);
+//                imageView.setImageURI(resultUri);
                 //get drawable bitmap for text recognition
                 BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
                 bitmap = bitmapDrawable.getBitmap();
@@ -511,7 +610,7 @@ public class ScanActivity extends AppCompatActivity {
 //        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.screenshot);
 
         PdfDocument document = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 1).create();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmapMaster.getWidth(), bitmapMaster.getHeight(), 1).create();
         PdfDocument.Page page = document.startPage(pageInfo);
 
         Canvas canvas = page.getCanvas();
@@ -522,10 +621,10 @@ public class ScanActivity extends AppCompatActivity {
         canvas.drawPaint(paint);
 
 
-        bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+        bitmapMaster = Bitmap.createScaledBitmap(bitmapMaster, bitmapMaster.getWidth(), bitmapMaster.getHeight(), true);
 
         paint.setColor(Color.BLUE);
-        canvas.drawBitmap(bitmap, 0, 0, null);
+        canvas.drawBitmap(bitmapMaster, 0, 0, null);
         document.finishPage(page);
 
 

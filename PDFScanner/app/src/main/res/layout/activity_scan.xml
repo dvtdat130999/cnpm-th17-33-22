@@ -131,6 +131,15 @@
                             android:textColor="@color/inactive"
                             android:textSize="24sp" />
                         <TextView
+                            android:layout_marginRight="20dp"
+                            android:id="@+id/sign_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@id/sharePDF"
+                            android:textSize="24dp"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:background="@drawable/ic_border_color_black_24dp"/>
+                        <TextView
                             android:id="@+id/sharePDF"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
