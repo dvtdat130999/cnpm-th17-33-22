@@ -31,12 +31,12 @@ public class LoginActivity extends AppCompatActivity {
                 String username=edtUsername.getText().toString();
                 String password=edtPassword.getText().toString();
 
-                if(username!=""&&password!="")
+                if(username.equals("admin") && password.equals("admin"))
                 {
                     android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(LoginActivity.this);
                     builder.setMessage("LoginActivity success!").create().show();
-
-
+                    Intent mainlayout = new Intent (LoginActivity.this, MainActivity.class)
+                    startActivity(mainlayout);
                 }
                 else
                 {
@@ -44,6 +44,20 @@ public class LoginActivity extends AppCompatActivity {
                     builder.setMessage("LoginActivity failed!").setNegativeButton("Retry",null).create().show();
 
                 }
+
+//                if(username!=""&&password!="")
+//                {
+//                    android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(LoginActivity.this);
+//                    builder.setMessage("LoginActivity success!").create().show();
+//
+//
+//                }
+//                else
+//                {
+//                    android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(LoginActivity.this);
+//                    builder.setMessage("LoginActivity failed!").setNegativeButton("Retry",null).create().show();
+//
+//                }
             }
         });
         txtvRegister.setOnClickListener(new View.OnClickListener() {
