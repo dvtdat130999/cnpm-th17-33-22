@@ -2,6 +2,7 @@ package com.example.pdfscanner.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         btnSignUp.setOnClickListener(this);
         txtvSignIn.setOnClickListener(this);
+        edtBirthdate.setOnClickListener(this);
     }
     @Override
     public void onClick(View view){
@@ -82,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 calendar.set(i,i1,i2);
-                SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
                 edtBirthdate.setText(simpleDateFormat.format(calendar.getTime()));
             }
         },year,month,day);
