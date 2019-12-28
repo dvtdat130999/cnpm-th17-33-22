@@ -26,11 +26,14 @@
             android:name=".Activities.ScanActivity">
         </activity>
         <activity android:name=".Activities.RegisterActivity" />
-        <activity android:name=".Activities.LoginActivity">
-            <intent-filter>
+        <activity android:name=".Activities.SplashScreen"
+            android:theme="@style/SplashScreen">
+        <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </intent-filter>
+        </activity>
+        <activity android:name=".Activities.LoginActivity">
         </activity>
         <activity android:name=".Activities.MainActivity" />
         <activity

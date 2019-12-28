@@ -27,4 +27,5 @@
     <color name="SkyBlue">#87CEEB</color>
     <color name="ColorPrimaryDark">#3367d6</color>
     <color name="ColorPrimary">#4285f4</color>
+    <color name="white">#ffffff</color>
 </resources>
