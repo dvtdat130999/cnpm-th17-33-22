@@ -6,10 +6,10 @@
     android:background="@color/colorTransparent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <com.example.pdfscanner.CustomScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -121,7 +121,6 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:padding="5dp">
 
                         <TextView
@@ -130,6 +129,25 @@
                             android:text="Image Review"
                             android:textColor="@color/inactive"
                             android:textSize="24sp" />
+                        <TextView
+                            android:layout_marginRight="20dp"
+                            android:id="@+id/sign_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@id/sharePDF"
+                            android:textSize="24dp"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:background="@drawable/ic_border_color_black_24dp"/>
+                        <TextView
+                            android:layout_marginRight="20dp"
+                            android:id="@+id/done_sign_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@id/sign_btn"
+                            android:visibility="invisible"
+                            android:textSize="24dp"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:background="@drawable/ic_done_black_24dp"/>
                         <TextView
                             android:id="@+id/sharePDF"
                             android:layout_width="wrap_content"
@@ -164,7 +182,7 @@
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
-    </ScrollView>
+    </com.example.pdfscanner.CustomScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
