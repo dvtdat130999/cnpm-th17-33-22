@@ -9,9 +9,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dac38b29-b307-48b8-aca7-dd391e7dd9fd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/LoginActivity.java" afterDir="false" />
-    </list>
+    <list default="true" id="dac38b29-b307-48b8-aca7-dd391e7dd9fd" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,27 +22,34 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/LoginActivity.java">
+        <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/res/layout/activity_register.xml">
+          <provider editor-type-id="android-designer2" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="816">
-              <caret line="57" column="68" selection-start-line="57" selection-start-column="68" selection-end-line="57" selection-end-column="68" />
+            <state relative-caret-position="476">
+              <caret line="28" column="42" lean-forward="true" selection-start-line="28" selection-start-column="42" selection-end-line="28" selection-end-column="42" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/SQLite.java">
+        <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/res/drawable/ic_launcher_background.xml">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/res/drawable/back.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="119" selection-start-line="119" selection-end-line="119" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="34">
+              <caret line="2" column="54" selection-start-line="2" selection-start-column="54" selection-end-line="2" selection-end-column="54" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/res/values/colors.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="32" selection-start-line="5" selection-end-line="6" />
             </state>
           </provider>
         </entry>
@@ -64,6 +69,7 @@
         <option value="$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/RegisterActivity.java" />
         <option value="$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/SQLite.java" />
         <option value="$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/LoginActivity.java" />
+        <option value="$PROJECT_DIR$/PDFScanner/app/src/main/res/drawable/back.xml" />
       </list>
     </option>
   </component>
@@ -78,8 +84,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -107,12 +111,6 @@
               <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
               <item name="cnpm-th17-33-22" type="462c0819:PsiDirectoryNode" />
               <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
-              <item name=".idea" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cnpm-th17-33-22" type="462c0819:PsiDirectoryNode" />
-              <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -121,6 +119,56 @@
               <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cnpm-th17-33-22" type="462c0819:PsiDirectoryNode" />
+              <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="androidTest" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cnpm-th17-33-22" type="462c0819:PsiDirectoryNode" />
+              <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="androidTest" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cnpm-th17-33-22" type="462c0819:PsiDirectoryNode" />
+              <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="androidTest" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cnpm-th17-33-22" type="462c0819:PsiDirectoryNode" />
+              <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="androidTest" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="example" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cnpm-th17-33-22" type="462c0819:PsiDirectoryNode" />
+              <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="androidTest" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="example" type="462c0819:PsiDirectoryNode" />
+              <item name="pdfscanner" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
@@ -179,46 +227,98 @@
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cnpm-th17-33-22" type="462c0819:PsiDirectoryNode" />
+              <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
+              <item name="values" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cnpm-th17-33-22" type="462c0819:PsiDirectoryNode" />
+              <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
+              <item name="xml" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cnpm-th17-33-22" type="462c0819:PsiDirectoryNode" />
+              <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cnpm-th17-33-22" type="462c0819:PsiDirectoryNode" />
+              <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cnpm-th17-33-22" type="462c0819:PsiDirectoryNode" />
+              <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cnpm-th17-33-22" type="462c0819:PsiDirectoryNode" />
+              <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="example" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cnpm-th17-33-22" type="462c0819:PsiDirectoryNode" />
+              <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="com" type="462c0819:PsiDirectoryNode" />
               <item name="example" type="462c0819:PsiDirectoryNode" />
               <item name="pdfscanner" type="462c0819:PsiDirectoryNode" />
-              <item name="Activities" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
               <item name="cnpm-th17-33-22" type="462c0819:PsiDirectoryNode" />
               <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="res" type="462c0819:PsiDirectoryNode" />
+              <item name="gradle" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
               <item name="cnpm-th17-33-22" type="462c0819:PsiDirectoryNode" />
               <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="res" type="462c0819:PsiDirectoryNode" />
-              <item name="layout" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cnpm-th17-33-22" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cnpm-th17-33-22" type="462c0819:PsiDirectoryNode" />
-              <item name="PDFScanner" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="res" type="462c0819:PsiDirectoryNode" />
-              <item name="menu" type="462c0819:PsiDirectoryNode" />
+              <item name="gradle" type="462c0819:PsiDirectoryNode" />
+              <item name="wrapper" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -320,11 +420,6 @@
     </layout-to-restore>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/PDFViewActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-620" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/androidTest/java/com/example/pdfscanner/ExampleInstrumentedTest.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -337,9 +432,6 @@
     <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/UserActivity.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/SignatureActivity.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/ScanActivity.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -347,9 +439,6 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/PDFScanner/.idea/runConfigurations.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PDFScanner/.idea/render.experimental.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/ic_setting-web.png">
@@ -468,9 +557,6 @@
     <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/res/drawable/ic_image.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/res/drawable/back.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -490,27 +576,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/res/layout/activity_register.xml">
-      <provider editor-type-id="android-designer2" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="37" column="47" selection-start-line="37" selection-start-column="47" selection-end-line="37" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-306" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/SQLite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="119" selection-start-line="119" selection-end-line="119" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/res/layout/activity_login.xml">
@@ -521,13 +589,60 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/MainActivity.java">
+    <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/SQLite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1887">
+          <caret line="119" selection-start-line="119" selection-end-line="119" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PDFScanner/.idea/render.experimental.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/SignatureActivity.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/LoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
+        <state relative-caret-position="529">
           <caret line="57" column="68" selection-start-line="57" selection-start-column="68" selection-end-line="57" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/java/com/example/pdfscanner/Activities/PDFViewActivity.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/res/layout/activity_register.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="28" column="42" lean-forward="true" selection-start-line="28" selection-start-column="42" selection-end-line="28" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/res/drawable/ic_launcher_background.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/res/values/dimen.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="32" selection-start-line="5" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PDFScanner/app/src/main/res/drawable/back.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="54" selection-start-line="2" selection-start-column="54" selection-end-line="2" selection-end-column="54" />
         </state>
       </provider>
     </entry>
