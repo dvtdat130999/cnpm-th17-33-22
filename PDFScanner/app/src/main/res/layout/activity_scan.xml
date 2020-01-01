@@ -1,197 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/colorTransparent"
     android:layout_height="match_parent">
 
-    <com.example.pdfscanner.CustomScrollView
-        android:id="@+id/scrollView"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <LinearLayout
+        <com.example.pdfscanner.CustomScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#fff"
-                app:cardCornerRadius="3dp"
-                app:cardElevation="3dp"
-                app:cardUseCompatPadding="true">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="5dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Result"
-                            android:textColor="@color/inactive"
-                            android:textSize="24sp" />
-                        <TextView
-                            android:id="@+id/shareText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:textSize="24dp"
-                            android:backgroundTint="@color/colorPrimary"
-                            android:background="@drawable/ic_share"/>
-                    </RelativeLayout>
-
-                    <EditText
-                        android:id="@+id/edtResult"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:autoLink="all"
-                        android:background="@null"
-                        android:hint=""
-                        android:padding="5dp"
-                        android:textColor="#000" />
+                    app:cardBackgroundColor="#fff"
+                    app:cardCornerRadius="3dp"
+                    app:cardElevation="3dp"
+                    app:cardUseCompatPadding="true">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/btnSaveText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:background="@drawable/bg_button"
-                            android:text="Save text"
-                            android:textColor="@color/colorTitle" />
-
-                        <Button
-                            android:id="@+id/btnLoadText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:background="@drawable/bg_button"
-                            android:text="Load text"
-                            android:textColor="@color/colorTitle" />
-
-                        <Button
-                            android:id="@+id/btnClearText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:background="@drawable/bg_button"
-                            android:text="Clear text"
-                            android:textColor="@color/colorTitle" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="#fff"
-                app:cardCornerRadius="3dp"
-                app:cardElevation="3dp"
-                app:cardUseCompatPadding="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="5dp">
-
-                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:padding="5dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <RelativeLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Image Review"
-                            android:textColor="@color/inactive"
-                            android:textSize="24sp" />
-                        <TextView
-                            android:layout_marginRight="20dp"
-                            android:id="@+id/sign_btn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@id/sharePDF"
-                            android:textSize="24dp"
-                            android:backgroundTint="@color/colorPrimary"
-                            android:background="@drawable/ic_border_color_black_24dp"/>
-                        <TextView
-                            android:layout_marginRight="20dp"
-                            android:id="@+id/done_sign_btn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@id/sign_btn"
-                            android:visibility="invisible"
-                            android:textSize="24dp"
-                            android:backgroundTint="@color/colorPrimary"
-                            android:background="@drawable/ic_done_black_24dp"/>
-                        <TextView
-                            android:id="@+id/sharePDF"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:textSize="24dp"
-                            android:backgroundTint="@color/colorPrimary"
-                            android:background="@drawable/ic_share"/>
-                    </RelativeLayout>
+                            android:orientation="horizontal"
+                            android:padding="5dp">
 
-                    <ImageView
-                        android:id="@+id/imgView"
-                        android:layout_width="wrap_content"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Result"
+                                android:textColor="@color/inactive"
+                                android:textSize="24sp" />
+                            <TextView
+                                android:id="@+id/shareText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:textSize="24dp"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:background="@drawable/ic_share"/>
+                        </RelativeLayout>
+
+                        <EditText
+                            android:id="@+id/edtResult"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:autoLink="all"
+                            android:background="@null"
+                            android:hint=""
+                            android:padding="5dp"
+                            android:textColor="#000" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/btnSaveText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:background="@drawable/bg_button"
+                                android:text="Save text"
+                                android:textColor="@color/colorTitle" />
+
+                            <Button
+                                android:id="@+id/btnLoadText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:background="@drawable/bg_button"
+                                android:text="Load text"
+                                android:textColor="@color/colorTitle" />
+
+                            <Button
+                                android:id="@+id/btnClearText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:background="@drawable/bg_button"
+                                android:text="Clear text"
+                                android:textColor="@color/colorTitle" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="#fff"
+                    app:cardCornerRadius="3dp"
+                    app:cardElevation="3dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:maxHeight="250dp" />
+                        android:orientation="vertical"
+                        android:padding="5dp">
 
-                    <Button
-                        android:id="@+id/btn_convert"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="5dp"
-                        android:background="@drawable/bg_button"
-                        android:text="Convert"
-                        android:textColor="@color/colorTitle" />
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp">
 
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Image Review"
+                                android:textColor="@color/inactive"
+                                android:textSize="24sp" />
 
-        </LinearLayout>
-    </com.example.pdfscanner.CustomScrollView>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
+                            <TextView
+                                android:id="@+id/sharePDF"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:textSize="24dp"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:background="@drawable/ic_share"/>
+                        </RelativeLayout>
+
+                        <ImageView
+                            android:id="@+id/imgView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:maxHeight="250dp" />
+
+                        <Button
+                            android:id="@+id/btn_convert"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/bg_button"
+                            android:text="Convert"
+                            android:textColor="@color/colorTitle" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+        </com.example.pdfscanner.CustomScrollView>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:itemBackground="@android:color/white"
+            app:itemIconTint="@android:color/darker_gray"
+            app:itemTextColor="@android:color/darker_gray"
+            app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+            app:menu="@menu/bottom_navigation" />
+    </RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:itemBackground="@android:color/white"
-        app:itemIconTint="@android:color/darker_gray"
-        app:itemTextColor="@android:color/darker_gray"
-        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
-        app:menu="@menu/bottom_navigation" />
-</RelativeLayout>
+        android:layout_gravity="end|bottom"
+        android:layout_marginVertical="50dp"
+        android:layout_marginHorizontal="20dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:id="@+id/sign_btn"
+        android:elevation="6dp"
+        android:src="@drawable/ic_border_color_black_24dp"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginVertical="120dp"
+        android:layout_marginHorizontal="20dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:id="@+id/done_sign_btn"
+        android:elevation="6dp"
+        android:src="@drawable/ic_done_black_24dp"
+        />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

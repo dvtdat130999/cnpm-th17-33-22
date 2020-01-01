@@ -56,6 +56,7 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -81,7 +82,8 @@ public class ScanActivity extends AppCompatActivity {
     CustomScrollView scrollView;
     BottomNavigationView bottomNavigationView;
     ShareActionProvider mShareActionProvider;
-    TextView shareText, sharePDF, sign_btn, done_sign_btn;
+    TextView shareText, sharePDF;
+    FloatingActionButton sign_btn, done_sign_btn;
 
     private static final int CAMERA_REQUEST_CODE = 200;
     private static final int STORAGE_REQUEST_CODE = 400;
@@ -215,7 +217,7 @@ public class ScanActivity extends AppCompatActivity {
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public void onClick(View v) {
-                done_sign_btn.setVisibility(View.VISIBLE);
+                done_sign_btn.setEnabled(true);
                 scrollView.setEnableScrolling(false);
                 imageView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
@@ -244,7 +246,7 @@ public class ScanActivity extends AppCompatActivity {
 
             }
         });
-        
+        done_sign_btn.setEnabled(false);
         done_sign_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
