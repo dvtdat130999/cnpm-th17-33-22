@@ -1,7 +1,5 @@
 package com.example.pdfscanner.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -11,6 +9,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pdfscanner.R;
 
@@ -54,16 +54,23 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 String username=edtUsername.getText().toString();
                 String password=edtPassword.getText().toString();
 
-                if(fname!=""&&lname!=""&&address!=""&&phone!=""&&birthdate!=""&&username!=""&&password!="")
+
+                DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+                User user = new User(username, password);
+
+                //if(fname != "" && lname != "" && address != "" && phone != "" && birthdate != "" && username != "" && password != "")
+                if (fname.equals("") || lname.equals("") || address.equals("") || phone.equals("") || birthdate.equals("") || username.equals("") || password.equals(""))
                 {
-                    android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(RegisterActivity.this);
-                    builder.setMessage("RegisterActivity success!").create().show();
-                }
-                if(fname!=""&&lname!=""&&address!=""&&phone!=""&&birthdate!=""&&username!=""&&password!="")
-                {
-                    android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(RegisterActivity.this);
+                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(RegisterActivity.this);
                     builder.setMessage("RegisterActivity failed!").create().show();
                 }
+                else{
+                    db.addUser(user);
+                    android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(RegisterActivity.this);
+                    builder.setMessage("RegisterActivity success!").create().show();
+                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                }
+                //if(fname=="" || lname=="" || address==""||phone==""||birthdate==""||username==""|| password=="")
                 break;
             case R.id.txtvSignIn:
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
